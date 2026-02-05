@@ -4,4 +4,4 @@
  */
 
 export { getHealth, type HealthResult } from "./health.service";
-export { getStats, type StatsResult } from "./stats.service";
+export { getStats, type UserStatsResult as StatsResult } from "./stats.service";
