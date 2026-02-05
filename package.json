@@ -1,0 +1,16 @@
+{
+  "name": "racing-statistic-provider",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "server",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev --workspace server",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "build:server": "npm run build --workspace server",
+    "build:frontend": "npm run build --workspace frontend",
+    "build": "npm run build:server && npm run build:frontend"
+  }
+}
