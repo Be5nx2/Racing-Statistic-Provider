@@ -11,6 +11,12 @@ const MIN_LAP_TIME = 12;
 const MAX_LAP_TIME = 20;
 
 
+export interface StatsResult {
+  userStats : UserStatsResult[];
+  minLapTime : number;
+  maxLapTime : number;
+}
+
 export interface UserStatsResult { // move to the endpoint result
   userName : string;
   bestLapTime : number;
@@ -21,7 +27,7 @@ export interface UserStatsResult { // move to the endpoint result
 }
 
 
-export function getStats(): UserStatsResult[] {
+export function getStats(): StatsResult {
   const mapLapTimesByUserName = new Map<string, number[]>();
   const files = listFiles("./input");
   // for each file, parse the data and add the lap times to the map
@@ -47,7 +53,11 @@ export function getStats(): UserStatsResult[] {
     });
   }
 
-  return stats;
+  return {
+    userStats: stats,
+    minLapTime: MIN_LAP_TIME,
+    maxLapTime: MAX_LAP_TIME
+  };
 }
 
 /**
