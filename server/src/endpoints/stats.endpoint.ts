@@ -8,7 +8,7 @@ import { getStats } from "../services/stats.service";
 
 const router = Router();
 
-router.get("/", (_req: Request, res: Response) => {
+router.get("/statistics", (_req: Request, res: Response) => {
   const result = getStats();
   res.json(result);
 });
