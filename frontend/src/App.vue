@@ -23,21 +23,25 @@
           <table class="app__table">
           <thead>
             <tr>
-              <th>User</th>
+              <th>Username</th>
+              <th>Laps</th>
               <th>Best lap (s)</th>
               <th>Avg lap (s)</th>
               <th>Avg 10 best (s)</th>
-              <th>Laps</th>
+              <th>Consistency (s)</th>
+              <th>Avg deviation (s)</th>
               <th>10 best lap times</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="row in statsResult.userStats" :key="row.userName">
               <td class="app__cell-user">{{ row.userName }}</td>
+              <td>{{ row.lapNumber }}</td>
               <td>{{ formatTime(row.bestLapTime) }}</td>
               <td>{{ formatTime(row.averageLapTime) }}</td>
               <td>{{ formatTime(row.averageTenBestLapTimes) }}</td>
-              <td>{{ row.lapNumber }}</td>
+              <td>{{ formatTime(row.consistencyOfLapTime) }}</td>
+              <td>{{ formatTime(row.averageDeviationOfLapTime) }}</td>
               <td>
                 <ul class="app__lap-list">
                   <li v-for="(t, i) in row.tenBestLapTimes" :key="i">
@@ -70,6 +74,8 @@ interface UserStatsResult {
   userName: string;
   bestLapTime: number;
   averageLapTime: number;
+  consistencyOfLapTime: number;
+  averageDeviationOfLapTime: number;
   averageTenBestLapTimes: number;
   tenBestLapTimes: number[];
   lapNumber: number;
@@ -135,7 +141,7 @@ const loadStats = async () => {
 
 .app__content {
   width: 100%;
-  max-width: 720px;
+  max-width: 1400px;
   background: rgba(15, 23, 42, 0.9);
   border-radius: 1rem;
   padding: 1.5rem;
