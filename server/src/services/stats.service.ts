@@ -24,6 +24,8 @@ export interface UserStatsResult { // move to the endpoint result
   averageTenBestLapTimes : number;
   tenBestLapTimes : number[];
   lapNumber : number;
+  consistencyOfLapTime : number;
+  averageDeviationOfLapTime : number;
 }
 
 
@@ -47,8 +49,10 @@ export function getStats(): StatsResult {
       userName, 
       bestLapTime: getBestLapTime(sanitizedLapTimes),
       averageLapTime: getAverageLapTime(sanitizedLapTimes),
+      consistencyOfLapTime: getConsistencyPercentageOfLapTime(sanitizedLapTimes),
       tenBestLapTimes: getTenBestLapTimes(sanitizedLapTimes),
       averageTenBestLapTimes: getAverageLapTime(getTenBestLapTimes(sanitizedLapTimes)),
+      averageDeviationOfLapTime: getAverageStandardDeviationOfLapTime(sanitizedLapTimes),
       lapNumber: lapTimes.length
     });
   }
@@ -81,4 +85,20 @@ function getAverageLapTime(lapTimes: number[]): number {
 
 function getTenBestLapTimes(lapTimes: number[]): number[] {
   return lapTimes.sort((a, b) => a - b).slice(0, 10);
+}
+
+/**
+ * 
+ * @param lapTimes compute the pourcentage of constant lap time
+ * @returns the pourcentage of constant lap time
+ */
+function getConsistencyPercentageOfLapTime(lapTimes: number[]): number {
+  const averageLapTime = getAverageLapTime(lapTimes);
+  const standardDeviation = getAverageStandardDeviationOfLapTime(lapTimes);
+  return 100 - (standardDeviation / averageLapTime * 100);
+}
+
+function getAverageStandardDeviationOfLapTime(lapTimes: number[]): number {
+  const averageLapTime = getAverageLapTime(lapTimes);
+  return lapTimes.reduce((sum, time) => sum + Math.pow(time - averageLapTime, 2), 0) / lapTimes.length;
 }
